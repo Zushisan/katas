@@ -15,6 +15,8 @@ var calculateChange = function(total, cash) {
   var nickel = 0.05;
   var penny = 0.01;
 
+  let change = {};
+
   // Loop that count how much of each currency is given back.
   while(rest > 0){
 
@@ -55,42 +57,40 @@ var calculateChange = function(total, cash) {
       result[8] = result[8] + 1;
     }
 
+    // fixe rest decimals before starting the loop again
     rest = rest.toFixed(2);
   }
 
-var resultString = "{ ";
 
   if (result[0] > 0){
-    resultString = resultString.concat("twentyDollars: "+result[0]+", ");
+    change.twentyDollars = result[0];
   }
   if (result[1] > 0){
-    resultString = resultString.concat("tenDollars: "+result[1]+", ");
+    change.tenDollars = result[1];
   }
   if (result[2] > 0){
-    resultString = resultString.concat("fiveDollars: "+result[2]+", ");
+    change.fiveDollars = result[2];
   }
   if (result[3] > 0){
-    resultString = resultString.concat("twoDollars: "+result[3]+", ");
+    change.twoDollars = result[3];
   }
   if (result[4] > 0){
-    resultString = resultString.concat("oneDollar: "+result[4]+", ");
+    change.oneDollar = result[4];
   }
   if (result[5] > 0){
-    resultString = resultString.concat("quarter: "+result[5]+", ");
+    change.quarter = result[5];
   }
   if (result[6] > 0){
-    resultString = resultString.concat("dime: "+result[6]+", ");
+    change.dime = result[6];
   }
   if (result[7] > 0){
-    resultString = resultString.concat("nickel: "+result[7]+", ");
+    change.nickel = result[7];
   }
   if (result[8] > 0){
-    resultString = resultString.concat("penny: "+result[8]);
+    change.penny = result[8];
   }
 
-resultString = resultString.concat(" }");
-
-return resultString;
+return change;
 
 }
 
