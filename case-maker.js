@@ -2,6 +2,7 @@ var makeCase = function(input, type) {
   // Your code here
   // We put each word in an array
   var array = input.split(" ");
+
   var result = "";
   var style = [];
 
@@ -13,9 +14,7 @@ var makeCase = function(input, type) {
     style[0] = type;
   }
 
-
-
-  // count style array to determine number of passages
+  // count style array to determine number of passages to make sure we treat multiple conditions
   // apply the style in order for each passages
   for (var j = 0; j < style.length; j++){
 
@@ -43,6 +42,7 @@ var makeCase = function(input, type) {
         string = string.concat("_");
         result = result.concat(string);
       }
+      result = result.slice(0, -1);
     }
 
     if (style[j] === "kebab"){
@@ -51,57 +51,67 @@ var makeCase = function(input, type) {
         string = string.concat("-");
         result = result.concat(string);
       }
+      result = result.slice(0, -1);
     }
 
     if (style[j] === "title"){
-      //for( var i = 0; i < array.length; i++){
-        //var string = array[i].toString();
-       // string = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
-        //result = result.concat(string);
-        console.log("Title case.");
+      for( var i = 0; i < array.length; i++){
+        var string = array[i].toString();
+
+        result = result.concat(string+" ");
       }
 
-
-    if (style[j] === "vowel"){
-
-
-        var string = array.toString();
-        ['a', 'e', 'i', 'o', 'u'].indexOf(string.toUpperCase());
-        result = result.concat(string);
-
+        result = result.replace(/\w\S*/g, function(txt){
+          return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+        });
+        //console.log("Title case.");
     }
-
-    if (style[j] === "consonant"){
-
-        var string = array.toString();
-        string = string.charAt(0).toUpperCase() + string.slice(1);
-        result = result.concat(string);
-
-    }
-
-    if (style[j] === "upper"){
-
-        var string = array.toString();
-        string = string.charAt(0).toUpperCase() + string.slice(1);
-        result = result.concat(string);
-
-    }
-
-    if (style[j] === "lower"){
-
-        var string = array.toString();
-        string = string.charAt(0).toUpperCase() + string.slice(1);
-        result = result.concat(string);
-
-    }
-
-
   }
+
+  // We put our result in one string var for the other conditions
+  // We need to verify if we applied a style already or if we apply it directly on input
+  if (result === ""){
+    result = input;
+  }
+
+
+  for (var k = 0; k < style.length; k++){
+
+    if (style[k] === "vowel"){
+
+        result = result.replace(/[aeiou]/g, function(m) {
+          m = m.toUpperCase();
+          return m;
+        });
+
+    }
+
+    if (style[k] === "consonant"){
+
+
+        result = result.replace(/[bcdfghjklmnpqrstvwxyz]/g, function(m) {
+          m = m.toUpperCase();
+          return m;
+        });
+
+    }
+
+    if (style[k] === "upper"){
+
+        result = result.toUpperCase();
+
+    }
+
+    if (style[k] === "lower"){
+
+        result = result.toLowerCase();
+
+    }
+  }
+
   console.log(result);
-  //return result;
+
 }
-
-
 
 
 makeCase('this is a string', 'camel');
@@ -112,3 +122,4 @@ makeCase('this is a string', 'title');
 makeCase('this is a string', 'vowel');
 makeCase('this is a string', 'consonant');
 makeCase('this is a string', ['upper', 'snake']);
+makeCase('this is a string', ['lower', 'kebab']);
